@@ -20,12 +20,19 @@ for(let i = 0; i < boxes.length; i++) {
         if(this.childNodes.length == 0) {
 
             let cloneEl = el.cloneNode(true)
-
             this.appendChild(cloneEl);
 
             if(player1 == player2) {
+
                 player1++;
+
+                if(secondPlayer == 'ai-player') {
+                    computerPlay();
+                    player2++;
+                }
+
             } else {
+
                 player2++;
             }
 
@@ -52,8 +59,6 @@ for(let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', function() {
 
         secondPlayer = this.getAttribute('id');
-
-        console.log(this);
 
         for(let j = 0; j < buttons.length; j++) {
             buttons[j].style.display = 'none';
@@ -254,5 +259,27 @@ function declareWinner(winner) {
 /* IA jogando */
 function computerPlay() {
 
+    let cloneO = o.cloneNode(true);
+    let counter = 0;
+    let filled = 0
+
+    for(let i = 0; i < boxes.length; i++) {
+        
+        let random = Math.floor(Math.random() * 9);
+
+        boxes.forEach(box => {
+            if(box != undefined) {
+                filled++;
+            }
+        });
+
+        if(boxes[random].childNodes[0] == undefined && random <= 9) {
+            boxes[random].appendChild(cloneO);
+            counter++;
+        }
+    }
     
+    if(counter == 0 && filled != 9) {
+        computerPlay();
+    }
 }
